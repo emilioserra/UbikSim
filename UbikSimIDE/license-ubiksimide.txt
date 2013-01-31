@@ -1,0 +1,27 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Contact, UbikSimIDE has been developed by:
+${licensePrefix}
+${licensePrefix}Juan A. Botía , juanbot@um.es
+${licensePrefix}Pablo Campillo, pablocampillo@um.es
+${licensePrefix}Francisco Campuzano, fjcampuzano@um.es
+${licensePrefix}Emilio Serrano, emilioserra@um.es 
+${licensePrefix}
+${licensePrefix}This file is part of UbikSimIDE.
+${licensePrefix}
+${licensePrefix}    UbikSimIDE is free software: you can redistribute it and/or modify
+${licensePrefix}    it under the terms of the GNU General Public License as published by
+${licensePrefix}    the Free Software Foundation, either version 3 of the License, or
+${licensePrefix}    (at your option) any later version.
+${licensePrefix}
+${licensePrefix}    UbikSimIDE is distributed in the hope that it will be useful,
+${licensePrefix}    but WITHOUT ANY WARRANTY; without even the implied warranty of
+${licensePrefix}    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+${licensePrefix}    GNU General Public License for more details.
+${licensePrefix}
+${licensePrefix}    You should have received a copy of the GNU General Public License
+${licensePrefix}    along with UbikSimIDE.  If not, see <http://www.gnu.org/licenses/>
+<#if licenseLast??>
+${licenseLast}
+</#if>

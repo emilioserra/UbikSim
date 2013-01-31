@@ -1,0 +1,15 @@
+Attended
+Assistant
+DisabledElder
+ElderResident
+Teacher
+MyAttended
+BasicSubject
+Mama
+TestPerson
+MuseumVisitor
+GeriatricDirector
+GeriatricEvacuationTeam
+GeriatricInterventionTeam
+GeriatricMedicalTeam
+Fireman

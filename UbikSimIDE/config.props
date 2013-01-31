@@ -1,0 +1,12 @@
+#Configuracion de UbikSim
+#Tama?o de la celda en cent?metros
+cellSize=5
+# Lista de ficheros de cada planta separados por comas, e.j., "floors=f0.sh3d,f1.sh3d,f2.sh3d"
+floors=./environments/experiment.ubiksim
+# Valor de la semilla para la simulaci?n, valores: "random" ? un n?mero.
+seed=random
+# date format "yyyy-MM-dd hh:mm:ss"
+initialDate=2012-01-01 00:00:00
+# url o ip donde est? corriendo OCP, para ejecuciones sin entorno OSGi
+# ipOCP=localhost
+ocp=off

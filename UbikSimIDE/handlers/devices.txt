@@ -1,0 +1,15 @@
+PC
+Actuator
+Mobile
+AndroidMobile
+SlaveBluetooth
+RFIDAntenna
+RFIDTag
+Thermometer
+AirCond
+PresenceSensor
+RQTag
+PressureSensor
+DoorSensor
+FloorTileWithPressureSensor
+GeoQRCode

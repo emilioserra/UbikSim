@@ -1,0 +1,12 @@
+Room
+Office
+BathRoom
+Kitchen
+LivingRoom
+Lab
+MeetingRoom
+Corridor
+BedRoom
+MaintenanceRoom
+Door
+Wall
