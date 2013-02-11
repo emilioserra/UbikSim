@@ -99,7 +99,7 @@ public class GenericChart extends GUIState{
             @Override
 	public void start() //cuando se pulsa play
     {
-        super.start();
+        //super.start();
     
         
         
