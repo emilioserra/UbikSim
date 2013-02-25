@@ -68,8 +68,8 @@ public class UbikSimDisplay3D extends JFrame {
 	
 	private RelojDigital clock;
 	private String[] viewModeOptions = { ViewPerspective.VIEW_FROM_TOP, ViewPerspective.VIEW_FROM_OBSERVER };
-	private JComboBox<String> viewMode;
-	private JComboBox<Person> keyControledPeople;
+	private JComboBox viewMode;
+	private JComboBox keyControledPeople;
 	private JCheckBox showGraph;
 	private HomeController3D c3d;
 	private HomeComponent3D homeComponent3D;
@@ -134,7 +134,7 @@ public class UbikSimDisplay3D extends JFrame {
 		JPanel perspectivePanel = new JPanel(new GridLayout(1, 2));
 		JLabel viewLabel = new JLabel("Perspective: ");
 		perspectivePanel.add(viewLabel);
-		viewMode = new JComboBox<String>(viewModeOptions);
+		viewMode = new JComboBox(viewModeOptions);
 		viewMode.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -160,7 +160,7 @@ public class UbikSimDisplay3D extends JFrame {
 		keyboardControlledByPerson.init(0, new ViewPerspective((String)viewMode.getSelectedItem()), homeComponent3D, ubik);
 		addViewPerspectiveListener(keyboardControlledByPerson);
 		
-		keyControledPeople = new JComboBox<Person>();
+		keyControledPeople = new JComboBox();
 		keyControledPeople.setModel(new PeopleComboBox(ubik));
 		keyControledPeople.addActionListener(new ActionListener() {
 			@Override

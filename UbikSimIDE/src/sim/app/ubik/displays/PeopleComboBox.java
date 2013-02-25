@@ -29,7 +29,7 @@ import javax.swing.event.ListDataListener;
 import sim.app.ubik.Ubik;
 import sim.app.ubik.people.Person;
 
-public class PeopleComboBox implements ComboBoxModel<Person> {
+public class PeopleComboBox implements ComboBoxModel {
 	private Ubik ubik;
 	
 	private Person selected = null;
@@ -38,32 +38,32 @@ public class PeopleComboBox implements ComboBoxModel<Person> {
 		this.ubik = ubik;
 	}
 	
-	@Override
+
 	public int getSize() {
 		return ubik.getBuilding().getFloor(0).getPersonHandler().getPersons().size()+1;
 	}
 
-	@Override
+
 	public Person getElementAt(int index) {
 		if(index == 0)
 			return null;
 		return ubik.getBuilding().getFloor(0).getPersonHandler().getPersons().get(index-1);
 	}
 
-	@Override
+
 	public void addListDataListener(ListDataListener l) {
 	}
 
-	@Override
+
 	public void removeListDataListener(ListDataListener l) {
 	}
 
-	@Override
+
 	public void setSelectedItem(Object anItem) {
 		selected = (Person) anItem;
 	}
 
-	@Override
+
 	public Object getSelectedItem() {
 		return selected;
 	}
