@@ -63,7 +63,6 @@ public class GammaPdf extends Pdf{
         this.shape=shape;
         this.scale=scale;
         double valor=gamma.random(shape, scale, new uniform());
-        System.out.println(valor);
         this.nextTransition=toMinute(valor);
          if(ECHO) System.out.println(toString() + ", first time generated " + this.nextTransition);
     }
