@@ -42,6 +42,7 @@ import org.rosuda.JRI.REXP;
 import sim.app.ubik.R.RInterface;
 import sim.app.ubik.behaviors.Automaton;
 import sim.app.ubik.behaviors.PositionTools;
+import sim.app.ubik.people.PersonBag.objectPosition;
 import sim.app.ubik.representation.Label;
 import ubik3d.model.Camera;
 
@@ -335,13 +336,13 @@ abstract public class Person extends Observable implements Steppable, Stoppable,
     }
     
     /**
-     * Añade un objeto Portable a la persona. Incluye un parámetro booleano para 
-     * indicar si se sitúa encima de la cabeza
+     * Añade un objeto Portable a la persona. Incluye un parámetro para 
+     * indicar si se sitúa encima de la cabeza o delante
      *
      * @param p
      * @param elevation
      */
-    public void addObjectToBag(Portable p, String position) {
+    public void addObjectToBag(Portable p, objectPosition position) {
         objectsCarried.addPortableObject(p,position);
     }
 

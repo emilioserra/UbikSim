@@ -195,4 +195,15 @@ public class UbikClock implements Steppable, Stoppable, TimeSubject {
     public void setDate(long date) {
     	timestamp = date;
     }
+    
+    public void setDate(int year,int month, int day,int hour,int minute, int second) {
+    	this.anyos=year;
+        this.meses=month;
+        this.dias=day;
+        this.horas=hour;
+        this.minutos=minute;
+        this.segundos=second;
+        Date d=new Date(year,month,day,hour,minute, second);
+        this.timestamp=d.getTime();
+    }
 }

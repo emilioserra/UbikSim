@@ -23,15 +23,28 @@
  */
 package sim.app.ubik.people;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class PersonBag {
 
 	private int interObjectSpace = 20;
-	protected List<Portable> objects;
-        protected List<String> positions; //"ELEVATED","PUSHED"
+	public enum objectPosition{Elevated(1),Pushed(2);
+            private int pos;
+ 
+            objectPosition(int pos){
+                this.pos = pos;
+            }
+ 
+            public int getPos(){
+                return this.pos;
+            }
+        };
+	protected Map<Portable,PersonBag.objectPosition> objects; //value puede ser objectPosition.Elevated o objectPosition.Pushed
+
 	protected Person person;
                 
 	public PersonBag(Person person) {
@@ -40,32 +53,29 @@ public class PersonBag {
 
 	public void addPortableObject(Portable p) {
 		if (objects == null) {
-			objects = new ArrayList<Portable>();
+			objects = new HashMap<Portable,PersonBag.objectPosition>();
 		}
-
 		float elevation = getTopElevation();
                 p.moveTo(person.getPerson3DModel().getX(), person.getPerson3DModel().getY());
 		p.elevate(elevation);
-		objects.add(p);
+		objects.put(p,PersonBag.objectPosition.Elevated);
 	}
         
-        public void addPortableObject(Portable p,String position) {
+        public void addPortableObject(Portable p,PersonBag.objectPosition position) {
 		if (objects == null) {
-			objects = new ArrayList<Portable>();
-                        positions = new ArrayList<String>();
+			objects = new HashMap<Portable,PersonBag.objectPosition>();
 		}
-                if (position.equals("ELEVATED")){
+                if (position.equals(PersonBag.objectPosition.Elevated)){
                     float elevation = getTopElevation();
                     p.moveTo(person.getPerson3DModel().getX(), person.getPerson3DModel().getY());
                     p.elevate(elevation);
-                    objects.add(p);
-                    positions.add("ELEVATED");
+                    objects.put(p,PersonBag.objectPosition.Elevated);
                 }
-                else if (position.equals("PUSHED")){
+                else if (position.equals(PersonBag.objectPosition.Pushed)){
                     float angle=person.getPerson3DModel().getAngle();
                     p.getVisualObject().setAngle(angle);
-                    p.moveTo(person.getPerson3DModel().getX()- (int) Math.round(person.getPerson3DModel().getDepth()*Math.sin(person.getPerson3DModel().getAngle())), person.getPerson3DModel().getY()+ (int) Math.round(person.getPerson3DModel().getDepth()*Math.cos(person.getPerson3DModel().getAngle())));                    objects.add(p);
-                    positions.add("PUSHED");
+                    p.moveTo(person.getPerson3DModel().getX()- (int) Math.round(person.getPerson3DModel().getDepth()*Math.sin(person.getPerson3DModel().getAngle())), person.getPerson3DModel().getY()+ (int) Math.round(person.getPerson3DModel().getDepth()*Math.cos(person.getPerson3DModel().getAngle())));                    
+                    objects.put(p,PersonBag.objectPosition.Pushed);
                 }
 	}
 
@@ -74,10 +84,14 @@ public class PersonBag {
 		relocateObjects();
 	}
 
+        public void removeAllPortableObjects() {
+            objects.clear();
+	}
+        
 	private void relocateObjects() {
 		float elevation = person.getPerson3DModel().getElevation()
 				+ interObjectSpace;
-		for (Portable p : objects) {
+		for (Portable p : objects.keySet()) {
 			p.elevate(elevation);
 			elevation += p.getVisualObject().getElevation() + interObjectSpace;
 		}
@@ -85,7 +99,7 @@ public class PersonBag {
 
 	private float getTopElevation() {
 		float result = person.getPerson3DModel().getHeight() + interObjectSpace;
-		for (Portable p : objects) {
+		for (Portable p : objects.keySet()) {
 			result += p.getVisualObject().getHeight() + interObjectSpace;
 		}
 		return result;
@@ -94,30 +108,26 @@ public class PersonBag {
 	public void updatePosition() {
 		if (objects != null) {
                         int cont=0;
-			for (Portable p : objects) {
-                            if (positions!=null){
-                                if (positions.get(cont).equals("ELEVATED")){
-                                    p.moveTo(person.getPerson3DModel().getX(), person.getPerson3DModel().getY());
-                                }
-                                else if (positions.get(cont).equals("PUSHED")){
-                                    p.getVisualObject().setAngle(person.getPerson3DModel().getAngle());
-                                    p.moveTo(person.getPerson3DModel().getX()- (int) Math.round(person.getPerson3DModel().getDepth()*Math.sin(person.getPerson3DModel().getAngle())), person.getPerson3DModel().getY()+ (int) Math.round(person.getPerson3DModel().getDepth()*Math.cos(person.getPerson3DModel().getAngle())));
-                                }
-                            }
-                            else{
+			for (Portable p : objects.keySet()) {
+                            if (objects.get(p).equals(PersonBag.objectPosition.Elevated)){
                                 p.moveTo(person.getPerson3DModel().getX(), person.getPerson3DModel().getY());
                             }
+                            else if (objects.get(p).equals(PersonBag.objectPosition.Pushed)){
+                                p.getVisualObject().setAngle(person.getPerson3DModel().getAngle());
+                                p.moveTo(person.getPerson3DModel().getX()- (int) Math.round(person.getPerson3DModel().getDepth()*Math.sin(person.getPerson3DModel().getAngle())), person.getPerson3DModel().getY()+ (int) Math.round(person.getPerson3DModel().getDepth()*Math.cos(person.getPerson3DModel().getAngle())));
+                            }
+                           
 			}
 		}
 	}
 
 	public List<Portable> getObjects() {
-		return objects;
+		return new LinkedList<Portable>(objects.keySet());
 	}
         
         public boolean contains(Portable p) {
             if(objects == null)
                 return false;
-            return objects.contains(p);
+            return objects.containsKey(p);
         }
 }

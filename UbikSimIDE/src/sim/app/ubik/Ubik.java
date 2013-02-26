@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import sim.app.ubik.building.Building;
+import sim.app.ubik.clock.InitialDate;
 
 import sim.engine.MakesSimState;
 import sim.engine.SimState;
@@ -49,7 +50,7 @@ public class Ubik extends SimState {
 	 */
 	private long seedFromFile;
 	private int cellSize;
-	private Date initialDate;
+	private InitialDate initialDate;
 	private Building building;
 	private List<Home> homes;
 	private String pathScenario;
@@ -96,7 +97,7 @@ public class Ubik extends SimState {
 		Configuration configuration = new Configuration();
 		cellSize = configuration.getCellSize();
 		seedFromFile = configuration.getSeed();
-		initialDate = configuration.getInitialDate();
+		initialDate = new InitialDate(configuration.getInitialDate());
 		pathScenario = configuration.getPathScenario();
 		ipOCP = configuration.getIpOCP();
 		useOCP = configuration.isOCP();
@@ -168,6 +169,7 @@ public class Ubik extends SimState {
 
 		clock = new UbikClock();
 		clock.fixStoppable(schedule);
+                clock.setDate(initialDate.getYear(), initialDate.getMonth(), initialDate.getDay(), initialDate.getHour(), initialDate.getMinute(), initialDate.getSecond());
 
 		this.building = new Building(homes, this, cellSize);
 		this.building.createEntities();
@@ -227,11 +229,11 @@ public class Ubik extends SimState {
 
 	
 
-	public Date getInitialDate() {
+	public InitialDate getInitialDate() {
 		return initialDate;
 	}
 
-	public void setInitialDate(Date initialDate) {
+	public void setInitialDate(InitialDate initialDate) {
 		this.initialDate = initialDate;
 	}
 

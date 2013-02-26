@@ -28,6 +28,7 @@ import java.util.ListIterator;
 import java.util.Observable;
 import sim.app.ubik.Ubik;
 import sim.app.ubik.people.Person;
+import sim.app.ubik.people.PersonBag.objectPosition;
 import ubik3d.model.HomePieceOfFurniture;
 
 /**
@@ -52,7 +53,7 @@ public class PersonLabelRepresentation extends Representation{
             this.actualLabelRepresentation=person.getLabel();
             LinkedList<HomePieceOfFurniture> l=actualLabelRepresentation.getModels();
             
-            person.addObjectToBag(actualLabelRepresentation,"ELEVATED");
+            person.addObjectToBag(actualLabelRepresentation,objectPosition.Elevated);
             modelsPlacement(l, person);
         }
     }
@@ -90,7 +91,7 @@ public class PersonLabelRepresentation extends Representation{
         //The label representation is placed over the 3D model of the subject
         if (actualLabelRepresentation != null) {
             LinkedList<HomePieceOfFurniture> l=actualLabelRepresentation.getModels();
-            p.addObjectToBag(actualLabelRepresentation,"ELEVATED");
+            p.addObjectToBag(actualLabelRepresentation,objectPosition.Elevated);
             modelsPlacement(l, p);
         }
     }
