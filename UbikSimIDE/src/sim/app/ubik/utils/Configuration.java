@@ -23,9 +23,7 @@
  */
 package sim.app.ubik.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,150 +34,187 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Loads the Ubik class parameters for simulating a scenario.
- * Once created the class, use get methods to get the properties values.
- * 
+ * Loads the Ubik class parameters for simulating a scenario. Once created the
+ * class, use get methods to get the properties values.
+ *
  */
 public class Configuration {
-	public static String MODE = "mode";
-	public static String CELL_SIZE = "cellSize";
-	public static String FLOORS = "floors";
-	public static String SEED = "seed";
-	public static String IP_OCP = "ipOCP";
-	public static String OCP = "ocp";
-	public static String mobileIP = "mobileIP";
-	public static String mobilePort = "mobilePort";
-	public static String CAMERA_MODE = "cameraMode";
-	public static String KEYBOARD_CONTROLED = "keyboardControlled";
-	public static String INITIAL_DATE = "initialDate";
 
-	private static String CIPB_CONFIGFILE = "config.props";
-	protected Properties properties;
+    public static String MODE = "mode";
+    public static String CELL_SIZE = "cellSize";
+    public static String FLOORS = "floors";
+    public static String SEED = "seed";
+    public static String IP_OCP = "ipOCP";
+    public static String OCP = "ocp";
+    public static String mobileIP = "mobileIP";
+    public static String mobilePort = "mobilePort";
+    public static String CAMERA_MODE = "cameraMode";
+    public static String KEYBOARD_CONTROLED = "keyboardControlled";
+    public static String INITIAL_DATE = "initialDate";
+    private static String CIPB_CONFIGFILE = "config.props";
+    protected Properties properties;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(
+            "yyyy-MM-dd hh:mm:ss");
+    private File file;
 
-	private SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd hh:mm:ss");
+    /**
+     * Loads the properties from the default file config.props
+     */
+    public Configuration() {
+        this(CIPB_CONFIGFILE);
+    }
 
-	/**
-	 * Loads the properties from the default file config.props
-	 */
-	public Configuration() {
-		this(CIPB_CONFIGFILE);
-	}
-	
-	/**
-	 * Loads the properties from the given file path.
-	 * 
-	 * @param filePath
-	 */
-	public Configuration(String filePath) {
-		try {
-			properties = new Properties();
-			// Para mostrar de donde leemos el fichero
-			File f = new File(filePath);			
-			if(f.exists()) {
-				FileInputStream fis = new FileInputStream(f);
-				properties.load(fis);
-				fis.close();
-			} else {
-				System.err.println("Configuration: The file "+f.getAbsolutePath()+" doesn't exist.");
-			}
-		} catch (IOException ex) {
-			Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE,
-					null, ex);
-		}
-	}
+    /**
+     * Loads the properties from the given file path.
+     *
+     * @param filePath
+     */
+    public Configuration(String filePath) {
+        try {
+            properties = new Properties();
+            // Para mostrar de donde leemos el fichero
+            file = new File(filePath);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                properties.load(fis);
+                fis.close();
+            } else {
+                System.err.println("Configuration: The file " + file.getAbsolutePath() + " doesn't exist.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+    }
 
-	/**
-	 * obtiene una propiedad de la configuracion
-	 * 
-	 * @param key
-	 *            clave
-	 * @return valor o devuelve null si no se encuentra la clave
-	 */
-	public String getProperty(String key) {
-		return properties.getProperty(key);
-	}
+    /**
+     * obtiene una propiedad de la configuracion
+     *
+     * @param key clave
+     * @return valor o devuelve null si no se encuentra la clave
+     */
+    public String getProperty(String key) {
+        return properties.getProperty(key);
+    }
 
-	// No devuelve nulos
-	public String getProperty2(String key) {
-		String s = properties.getProperty(key);
-		if (s == null) {
-			return "";
-		} else {
-			return s;
-		}
-	}
+    // No devuelve nulos
+    public String getProperty2(String key) {
+        String s = properties.getProperty(key);
+        if (s == null) {
+            return "";
+        } else {
+            return s;
+        }
+    }
 
-	public void setProperty(String key, String value) {
-		properties.setProperty(key, value);
-	}
+    public void setProperty(String key, String value) {
+        properties.setProperty(key, value);
+    }
 
-	public boolean containsProperty(String key) {
-		return properties.contains(key);
-	}
+    /**
+     * Save properties in the file where they were loaded.
+     */
+    public void saveChanges() {
+        OutputStream os;
+        try {
+            os = new FileOutputStream(file);
+            properties.store(os, "UbikSim configuration file");
+            os.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-	public Set<String> getPropertyNames() {
-		return properties.stringPropertyNames();
-	}
+    public boolean containsProperty(String key) {
+        return properties.contains(key);
+    }
 
-	public int getCellSize() {
-		int result = 10;
-		if (getProperty(Configuration.CELL_SIZE) != null) {
-			result = Integer.parseInt(getProperty(Configuration.CELL_SIZE));
-		}
-		return result;
-	}
+    public Set<String> getPropertyNames() {
+        return properties.stringPropertyNames();
+    }
 
-	public long getSeed() {
-		long seed = 0;
-		if (getProperty(Configuration.SEED) != null) {
-			if (getProperty(Configuration.SEED).equalsIgnoreCase("random")) {
-				seed = System.currentTimeMillis();
-			} else {
-				seed = Integer.parseInt(getProperty(Configuration.SEED));
+    public int getCellSize() {
+        int result = 10;
+        if (getProperty(Configuration.CELL_SIZE) != null) {
+            result = Integer.parseInt(getProperty(Configuration.CELL_SIZE));
+        }
+        return result;
+    }
+    
+    public void setCellSize(int cellSize) {
+        properties.setProperty(CELL_SIZE, String.valueOf(cellSize));
+    }
 
-			}
-		}
-		return seed;
-	}
+    public long getSeed() {
+        long seed = 0;
+        if (getProperty(Configuration.SEED) != null) {
+            if (getProperty(Configuration.SEED).equalsIgnoreCase("random")) {
+                seed = System.currentTimeMillis();
+            } else {
+                seed = Integer.parseInt(getProperty(Configuration.SEED));
 
-	public boolean isOCP() {
-		boolean useOCP = false;
-		if (getProperty(Configuration.OCP) != null) {
-			String ocp = getProperty(Configuration.OCP);
-			if (ocp.equalsIgnoreCase("on") || ocp.equalsIgnoreCase("yes"))
-				useOCP = true;
-		}
-		return useOCP;
-	}
+            }
+        }
+        return seed;
+    }
 
-	public String getIpOCP() {
-		String ipOCP = "127.0.0.1";
-		if (getProperty(Configuration.IP_OCP) != null)
-			ipOCP = getProperty(Configuration.IP_OCP);
-		return ipOCP;
-	}
+    public void setSeed(long seed) {
+        properties.setProperty(SEED, String.valueOf(seed));
+    }
+    
+    public boolean isOCP() {
+        boolean useOCP = false;
+        if (getProperty(Configuration.OCP) != null) {
+            String ocp = getProperty(Configuration.OCP);
+            if (ocp.equalsIgnoreCase("on") || ocp.equalsIgnoreCase("yes")) {
+                useOCP = true;
+            }
+        }
+        return useOCP;
+    }
 
-	public String getPathScenario() {
-		if (getProperty(Configuration.FLOORS) != null) {
-			String allNames = getProperty(Configuration.FLOORS);
-			String[] names = allNames.split(",");
-			for (String n : names) {
-				return n;
-			}
-		}
-		return "";
-	}
+    public String getIpOCP() {
+        String ipOCP = "127.0.0.1";
+        if (getProperty(Configuration.IP_OCP) != null) {
+            ipOCP = getProperty(Configuration.IP_OCP);
+        }
+        return ipOCP;
+    }
 
-	public Date getInitialDate() {
-		Date date = new Date();
-		if (getProperty(Configuration.FLOORS) != null) {
-			try {
-				date = dateFormat.parse(getProperty(Configuration.INITIAL_DATE));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
-		return date;
-	}
+    public void setIpOCP(String ip) {
+        properties.setProperty(Configuration.IP_OCP, ip);
+    }
+    
+    public String getPathScenario() {
+        if (getProperty(Configuration.FLOORS) != null) {
+            String allNames = getProperty(Configuration.FLOORS);
+            String[] names = allNames.split(",");
+            for (String n : names) {
+                return n;
+            }
+        }
+        return "";
+    }
+
+    public void setPathScenario(String path) {
+        properties.setProperty(Configuration.FLOORS, path);
+    }
+    
+    public Date getInitialDate() {
+        Date date = new Date();
+        if (getProperty(Configuration.FLOORS) != null) {
+            try {
+                date = dateFormat.parse(getProperty(Configuration.INITIAL_DATE));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return date;
+    }
+    
+    public void setInitialDate(Date date) {
+        properties.setProperty(Configuration.INITIAL_DATE, date.toString());
+    }
 }

@@ -28,9 +28,6 @@ import ubik3d.SweetHome3D;
 public class UbikEditor {
 
     public static void main(String[] args) {
-        args=new String[2];
-        args[0]=""+4;
-        args[1]=""+10;
         SweetHome3D.main(args);
 
     }

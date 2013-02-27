@@ -23,57 +23,58 @@
  */
 package com.eteks.ubikeditor.plugin;
 
+import sim.app.ubik.Ubik;
 import sim.app.ubik.UbikSimLauncher;
+import sim.app.ubik.UbikSimWithUI;
+import sim.app.ubik.utils.Configuration;
+import sim.display.Console;
 import ubik3d.plugin.Plugin;
 import ubik3d.plugin.PluginAction;
 
-public class UbikSimPlugin extends Plugin {	
-	private static Plugin plugin;
-	
-	
-	@Override
-	public PluginAction[] getActions() {
-		setPlugin(this);
-		// TODO Auto-generated method stub
-		return new PluginAction [] {new WifiAction()};
-	}	
-		
-	public static Plugin getPlugin() {
-		return plugin;
-	}
+public class UbikSimPlugin extends Plugin {
 
-	public static void setPlugin(Plugin plugin) {
-		UbikSimPlugin.plugin = plugin;
-	
-	}	
-	
+    private static Plugin plugin;
 
-	public class WifiAction extends PluginAction {		
-		
-		public WifiAction() {			
-			putPropertyValue(Property.NAME, "Simulation");
-			putPropertyValue(Property.MENU, "Tools");
-			// Enables the action by default
-			setEnabled(true);			
-		}
+    @Override
+    public PluginAction[] getActions() {
+        setPlugin(this);
+        // TODO Auto-generated method stub
+        return new PluginAction[]{new SimulationAction()};
+    }
 
-		public boolean isEnabled() {
-			return getHome() != null && getHome().getRooms() != null && getHome().getRooms().size() > 0;
-		}
-		
-		@Override
-		public void execute() {
-			UbikSimLauncher usl = new UbikSimLauncher();
-	        usl.launch();
-			/*
-			URL wekaPath = getPluginClassLoader().getResource("weka.jar");
-			System.out.println(wekaPath);
-			URL localisationPath = getPluginClassLoader().getResource("Localisation.jar");
-			System.out.println(localisationPath);
-			URLClassLoader loader = new URLClassLoader(new URL[]  {wekaPath, localisationPath});
-			*/
-		}
-	}
-	
-	
+    public static Plugin getPlugin() {
+        return plugin;
+    }
+
+    public static void setPlugin(Plugin plugin) {
+        UbikSimPlugin.plugin = plugin;
+
+    }
+
+    public class SimulationAction extends PluginAction {
+
+        public SimulationAction() {
+            putPropertyValue(Property.NAME, "Simulation");
+            putPropertyValue(Property.MENU, "Tools");
+            // Enables the action by default
+            setEnabled(true);
+        }
+
+        public boolean isEnabled() {
+            return getHome() != null && getHome().getRooms() != null && getHome().getRooms().size() > 0;
+        }
+
+        @Override
+        public void execute() {
+            Configuration configuration = new Configuration();
+            String home = getHome().getName();
+            configuration.setPathScenario(home);
+
+            Ubik ubik = new Ubik(configuration);
+            UbikSimWithUI vid = new UbikSimWithUI(ubik);
+            Console c = new Console(vid);
+            c.setIncrementSeedOnStop(false);
+            c.setVisible(true);
+        }
+    }
 }

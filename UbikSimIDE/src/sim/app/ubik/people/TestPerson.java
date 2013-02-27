@@ -40,6 +40,9 @@ public class TestPerson extends Person {
 	
 	
 	public void step(SimState state) {
+            super.step(state);
+            if(getKeyControlPerson() != null)   // If the agent is being controlled using keyboard, 
+                return;                         // don't continue the step execution.
 	    if(automaton==null) automaton = new AutomatonTestPerson(this);
             automaton.nextState(state);
 	}

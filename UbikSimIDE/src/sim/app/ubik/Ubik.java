@@ -48,6 +48,8 @@ public class Ubik extends SimState {
 	 * El espacio de trabajo de un trabajador serán al menos los 8 que le rodean
 	 * . luego el máximo de trabajadores por planta es relativo a estos valores
 	 */
+    private Configuration configuration;
+    
 	private long seedFromFile;
 	private int cellSize;
 	private InitialDate initialDate;
@@ -84,17 +86,21 @@ public class Ubik extends SimState {
 		System.exit(0);
 	}
 
+        public Ubik(Configuration configuration) {
+            super(configuration.getSeed());
+            loadConfig(configuration);
+        }
+        
 	public Ubik() {
 		this(System.currentTimeMillis());
 	}
 
 	public Ubik(long seed) {
 		super(seed);
-		loadConfig();
+		loadConfig(new Configuration());
 	}
 
-	private void loadConfig() {
-		Configuration configuration = new Configuration();
+	private void loadConfig(Configuration configuration) {
 		cellSize = configuration.getCellSize();
 		seedFromFile = configuration.getSeed();
 		initialDate = new InitialDate(configuration.getInitialDate());
