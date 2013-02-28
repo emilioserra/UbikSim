@@ -1,0 +1,21 @@
+config.props
+handlers/
+nbproject/
+test/
+build.xml
+readme.md
+manifest.md
+manifest.mf
+run.bat
+timeRecords.txt
+
+
+*.class
+*.ubiksim
+build/
+dist/
+
+# Package Files #
+*.jar
+*.war
+*.ear
