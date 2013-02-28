@@ -1,7 +1,0 @@
-Chair
-Bed
-Vitrina
-Table
-FireExtinguisher
-Bin
-Bookcase
