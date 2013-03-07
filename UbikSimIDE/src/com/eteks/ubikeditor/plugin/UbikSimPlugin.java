@@ -24,7 +24,6 @@
 package com.eteks.ubikeditor.plugin;
 
 import sim.app.ubik.Ubik;
-import sim.app.ubik.UbikSimLauncher;
 import sim.app.ubik.UbikSimWithUI;
 import sim.app.ubik.utils.Configuration;
 import sim.display.Console;
@@ -60,6 +59,7 @@ public class UbikSimPlugin extends Plugin {
             setEnabled(true);
         }
 
+        @Override
         public boolean isEnabled() {
             return getHome() != null && getHome().getRooms() != null && getHome().getRooms().size() > 0;
         }

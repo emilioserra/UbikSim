@@ -23,13 +23,50 @@
  */
 package sim.app.ubik;
 
+import java.io.File;
+import java.io.IOException;
 import ubik3d.SweetHome3D;
+import ubik3d.io.FileUserPreferences;
+import ubik3d.model.UserPreferences;
+import ubik3d.plugin.PluginManager;
+import ubik3d.plugin.UbikPluginManager;
 
-public class UbikEditor {
+/**
+ * UbikEditor extends SweetHome3d in order to redefine getPluginManager().
+ * This method creates an instance of UbikPluginManager instead of PluginManager.
+ * 
+ */
+public class UbikEditor extends SweetHome3D {
 
-    public static void main(String[] args) {
-        SweetHome3D.main(args);
+    private static final String APPLICATION_PLUGINS_SUB_FOLDER = "plugins";
+    protected boolean pluginManagerInitialized = false;
+    protected PluginManager pluginManager;
 
+    public UbikEditor() {
+        super();
+        getUserPreferences().setLanguage("en");
     }
 
+    @Override
+    protected PluginManager getPluginManager() {
+        if (!this.pluginManagerInitialized) {
+            try {
+                UserPreferences userPreferences = getUserPreferences();
+                if (userPreferences instanceof FileUserPreferences) {
+                    File[] applicationPluginsFolders = ((FileUserPreferences) userPreferences).getApplicationSubfolders(APPLICATION_PLUGINS_SUB_FOLDER);
+                    // Create the plug-in manager that will search plug-in files in plugins folders
+                    // And will add the Simulation plugin (com.eteks.ubikeditor.plugin).
+                    this.pluginManager = new UbikPluginManager(applicationPluginsFolders);
+                }
+            } catch (IOException ex) {
+            }
+            this.pluginManagerInitialized = true;
+        }
+        return this.pluginManager;
+    }
+
+    public static void main(String[] args) {
+        UbikEditor ue = new UbikEditor();
+        ue.init(args);
+    }
 }
