@@ -168,8 +168,7 @@ public class Ubik extends SimState {
 			Home home = h.readHome(pathScenario);
 			homes.add(home);
 		} catch (RecorderException ex) {
-			Logger.getLogger(UbikSimLauncher.class.getName()).log(Level.SEVERE,
-					null, ex);
+                        System.err.println(   ex.toString());                 
 			return;
 		}
 
