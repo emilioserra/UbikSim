@@ -1,0 +1,28 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2006 Google, Inc.
+
+newmtl _Color_000_1
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+
+newmtl Metal_Panel
+Ka 0.000000 0.000000 0.000000
+Kd 0.560784 0.615686 0.619608
+Ks 0.330000 0.330000 0.330000
+map_Kd RfidAntena/Metal_Panel.jpg
+
+newmtl Metal_Seamed
+Ka 0.000000 0.000000 0.000000
+Kd 0.137255 0.137255 0.133333
+Ks 0.330000 0.330000 0.330000
+map_Kd RfidAntena/Metal_Seamed.jpg
+
+newmtl Wood_Lumber_ButtJoined
+Ka 0.000000 0.000000 0.000000
+Kd 0.266667 0.247059 0.184314
+Ks 0.330000 0.330000 0.330000
+d 0.940000
+map_Kd RfidAntena/Wood_Lumber_ButtJoined.jpg
+
