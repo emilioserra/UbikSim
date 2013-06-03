@@ -1,12 +1,13 @@
 /*
  * Contact, UbikSimIDE has been developed by:
  * 
- * Juan A. Botía , juanbot@um.es
+ * Juan A. BotÃ­a , juanbot@um.es
  * Pablo Campillo, pablocampillo@um.es
  * Francisco Campuzano, fjcampuzano@um.es
  * Emilio Serrano, emilioserra@um.es 
  * 
- * This file is part of UbikSimIDE.
+ * This file is part of UbikSimIDE and a modified version (on 10/02/2011) of 
+ * Sweet Home 3D version 3.3, Copyright (c) 2005-2011 Emmanuel PUYBARET / eTeks.
  * 
  *     UbikSimIDE is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by

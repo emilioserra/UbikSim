@@ -1,7 +1,7 @@
 /*
  * Contact, UbikSimIDE has been developed by:
  * 
- * Juan A. Botía , juanbot@um.es
+ * Juan A. BotÃ­a , juanbot@um.es
  * Pablo Campillo, pablocampillo@um.es
  * Francisco Campuzano, fjcampuzano@um.es
  * Emilio Serrano, emilioserra@um.es 
