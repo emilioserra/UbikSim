@@ -31,7 +31,7 @@ import sim.app.ubik.utils.GenericLogger;
 
 public class Experiment extends Ubik {
 
-	int numberOfAgents = 100;
+	int numberOfAgents = 2;
 	
 	GenericLogger gl;
 	
@@ -47,12 +47,12 @@ public class Experiment extends Ubik {
 		
 		Automaton.setEcho(false);
 		
-		Person pattern = PositionTools.getPerson(this, "Agent");
+		Person pattern = PositionTools.getPerson(this, "Bob");
 		System.out.println("Pattern: " + pattern.getName());
 		getBuilding().getFloor(0).getPersonHandler()
 				.addPersons(getNumberOfAgents(), true, pattern);
 		getBuilding().getFloor(0).getPersonHandler()
-				.changeNameOfAgents("Agent");
+				.changeNameOfAgents("Bob");
 
 		ms = new MonitorServiceImpl(this, 60*15);
 		ms.register();		
