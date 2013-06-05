@@ -27,6 +27,8 @@ import sim.app.ubik.behaviors.pdf.Pdf;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sim.app.ubik.people.Person;
 import sim.engine.SimState;
 
@@ -51,9 +53,10 @@ public abstract class Automaton {
  private LinkedList<Automaton> pendingTransitions;
  /**Booleano para indicar que el automata ha terminado.finished indica tanto parada como pausa dependiendo de que alguien vuelva a ejecutar el automata o no.*/
  private boolean finished;
+    private static final Logger LOG = Logger.getLogger(Automaton.class.getName());
 
  /**Imprimir evolución de automata por pantalla*/
- protected  static boolean ECHO = true;
+
  /**Tiempo restante de ejecución. Se puede fijar un tiempo para que un automata o estado
   * (distinto al más alto de la jerarquía) termine aunque tenga un estado por defecto. Con
   * -1 se ignora. En restart hay que ponerlo a duración..
@@ -172,7 +175,7 @@ public abstract class Automaton {
          pendingTransitions.removeFirst();            
          if(stateToBeReplaced!=null){
                 stateToBeReplaced.interrupt(simState);//el estado será retomado
-                if(ECHO) System.out.println(personImplementingAutomaton.getName() + ", " + name + " paused " + stateToBeReplaced.name);     
+                LOG.info(personImplementingAutomaton.getName() + ", " + name + " paused " + stateToBeReplaced.name);     
                 addTransition(stateToBeReplaced,true);
          }
          return newTransition;
@@ -229,25 +232,25 @@ public abstract class Automaton {
           for( Automaton ps: newTransitions){
             this.addTransition(ps,false);
           }
-         if(ECHO) System.out.println(personImplementingAutomaton.getName() + ", " +  name + " pending transitions extended " + pendingTransitions.toString());
+         LOG.info(personImplementingAutomaton.getName() + ", " +  name + " pending transitions extended " + pendingTransitions.toString());
         }
         //tratamiento para dar estado inicial y comprobar si estado actual se ha acabado.
         if (currentState== null || currentState.isFinished(simState)) {
             if(currentState!=null){//ya había un estado y ahora esta terminado
-            if(ECHO)    System.out.println(personImplementingAutomaton.getName() + ", " + name + " automaton finished " + currentState.toString());
+           LOG.info(personImplementingAutomaton.getName() + ", " + name + " automaton finished " + currentState.toString());
              currentState.setFinished(true);//fijar como terminado
             }
             if(!pendingTransitions.isEmpty()){//tomar siguiente transición pendiente (tanto si es como  estado inicial o como siguiente)
                 currentState=getTransitionAccordingToPriority(null, simState);
-                if(ECHO) System.out.println(personImplementingAutomaton.getName() + ", " + name + " automaton changes to state " + currentState.toString());
+                LOG.info(personImplementingAutomaton.getName() + ", " + name + " automaton changes to state " + currentState.toString());
             }
             else{//si no hay transiciones pendintes ir a estado por defecto (tanto si es como  estado inicial o como siguiente)
                 currentState = getDefaultState(simState);
-                if(ECHO && currentState!=null) System.out.println(personImplementingAutomaton.getName() + ", " + name + " automaton changes default state " + currentState.toString());
+                LOG.info(personImplementingAutomaton.getName() + ", " + name + " automaton changes default state " + currentState.toString());
              }
             if(currentState==null){//no hay estado por defecto ni transiciones pendientes, se pone finalizado y se devuelve para dar control al autómata padre
                 this.setFinished(true);
-                if(ECHO) System.out.println(personImplementingAutomaton.getName() + ", " + name + " automaton finished and no default state given, control returned to upper automaton. ");
+                LOG.info(personImplementingAutomaton.getName() + ", " + name + " automaton finished and no default state given, control returned to upper automaton. ");
                 return;
             }
         }
@@ -255,7 +258,7 @@ public abstract class Automaton {
         //parar estado en curso para iniciar uno de mayor prioridad
       if ((!pendingTransitions.isEmpty()) && pendingTransitions.getFirst().priority > currentState.priority) {
                 currentState =  getTransitionAccordingToPriority(currentState,simState);
-                if(ECHO) System.out.println(personImplementingAutomaton.getName() + ", change due to priority, " + name + " automaton changes to state " + currentState.toString());
+                LOG.info(personImplementingAutomaton.getName() + ", change due to priority, " + name + " automaton changes to state " + currentState.toString());
              
         }
      
@@ -265,7 +268,7 @@ public abstract class Automaton {
         //reducir tiempo de estado actual. Con -1 se indica que la finalización no depende del tiempo.
         if (currentState.duration != -1) {
             currentState.decreaseTimeLeft();
-            if(ECHO &&  currentState.isFinishedBecauseOfTime(simState)) System.out.println(personImplementingAutomaton.getName() + ", " + name + " time is over for " + currentState.toString());
+            if(  currentState.isFinishedBecauseOfTime(simState)) LOG.info(personImplementingAutomaton.getName() + ", " + name + " time is over for " + currentState.toString());
         }
 
 
@@ -444,16 +447,11 @@ public abstract class Automaton {
         return name.equals(s);
     }
 
-/**
- * Fijar salida por pantalla
- * @param b
- * @return
- */
-    public static void setEcho(boolean b){
-        ECHO=b;
-    }
 
-
+public static void setEcho(boolean b){
+   if(!b) LOG.setLevel(Level.WARNING);
+   if(b) LOG.setLevel(Level.FINEST);
+}
     /**
      * Obtener el automata más profundo en curso que no sea SimpleState.
      * Se usa en comunicaciones para insertar comportamientos fruto de la reacción.

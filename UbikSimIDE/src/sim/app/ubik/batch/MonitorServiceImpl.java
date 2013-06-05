@@ -24,6 +24,7 @@
 package sim.app.ubik.batch;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 import sim.app.ubik.Ubik;
@@ -32,8 +33,10 @@ import sim.app.ubik.people.Person;
 import sim.app.ubik.utils.GenericLogger;
 import sim.engine.SimState;
 
+
 public class MonitorServiceImpl implements GenericLoggerService {
 	protected long maxStepToStop = 60 * 5; // 15 mintues the building should be
+    private static final Logger LOG = Logger.getLogger(MonitorServiceImpl.class.getName());
 											// empty!
 	protected GenericLogger genericLogger;
 	protected Ubik ubik;
@@ -69,7 +72,7 @@ public class MonitorServiceImpl implements GenericLoggerService {
 		System.out
 				.print(" --------------------------------------------------->");
 		for (int i = 0; i < people.size(); i++) {
-                        System.out.println("REPLACE COMMENTS IN THIS CLASS WITH THE DATA TO BE LOGGED");
+                        LOG.info("REPLACE COMMENTS IN THIS CLASS WITH THE DATA TO BE LOGGED");
 			/**toLog[i] = ((TestPerson) people.get(i))
 					.getDistanceLeftToReachDestiny();
 			System.out.print(toLog[i] + " ");*/

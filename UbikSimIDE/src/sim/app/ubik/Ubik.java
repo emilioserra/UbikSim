@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sim.app.ubik.behaviors.Automaton;
 
 import sim.app.ubik.building.Building;
 import sim.app.ubik.clock.InitialDate;
@@ -137,6 +138,7 @@ public class Ubik extends SimState {
 		System.out.println("ubik.seed = " + seed());
 		super.start();
 		init();
+                Automaton.setEcho(false);
 	}
 
 	@Override

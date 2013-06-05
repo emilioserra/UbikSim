@@ -23,6 +23,7 @@
  */
 package sim.app.ubik.behaviors;
 
+import java.util.logging.Logger;
 import sim.app.ubik.Ubik;
 import sim.app.ubik.people.Person;
 import sim.engine.SimState;
@@ -35,6 +36,7 @@ import sim.util.MutableInt2D;
   * @author Juan A. Botía, Pablo Campillo, Francisco Campuzano, and Emilio Serrano
  */
 public class SimpleMove extends SimpleState {
+    private static final Logger LOG = Logger.getLogger(SimpleMove.class.getName());
 
 	protected int x;
     protected int y;
@@ -158,7 +160,7 @@ public class SimpleMove extends SimpleState {
         if(m.distance(new Double2D(x,y)) <= minDistance) 
         	return true;
         else if(numOfTries == 0) {
-                if(ECHO) System.err.println(name + "Destiny is not achieved, but the number of tries has been exeeded");
+                LOG.info(name + "Destiny is not achieved, but the number of tries has been exeeded");
         	return true;
         }
         return false;

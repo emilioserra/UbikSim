@@ -45,7 +45,6 @@ public class Experiment extends Ubik {
 	public void start() {
 		super.start();
 		
-		Automaton.setEcho(false);
 		
 		Person pattern = PositionTools.getPerson(this, "Bob");
 		System.out.println("Pattern: " + pattern.getName());
