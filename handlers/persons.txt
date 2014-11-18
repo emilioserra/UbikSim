@@ -1,0 +1,10 @@
+Assistant
+Attended
+DisabledElder
+ElderResident
+Fireman
+Mama
+MyAttended
+Teacher
+TestPerson
+Worker

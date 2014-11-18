@@ -1,0 +1,4 @@
+Bed
+Chair
+Stairs
+Door

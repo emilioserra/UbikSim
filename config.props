@@ -1,0 +1,23 @@
+#Configuracion de UbikSim
+# Modo de vision, 3 valores: "0D","2D","3D"
+mode=3D
+#Tama�o de la celda en centimetros
+cellSize=30
+# Lista deficheros de cada planta separados por comas, e.j., "floors=f0.sh3d,f1.sh3d,f2.sh3d"
+floors=./environments/mapExample.ubiksim
+# Valor de la semilla para la simulacion, valores: "random" o un numero.
+seed=2
+# url o ip donde esta corriendo OCP, para ejecuciones sin entorno OSGi
+# ipOCP=localhost
+ocp=off
+#mobileIP=192.168.1.21
+#mobilePort=9278
+initialDate=2012-01-01 00:00:00
+# perspectiva de la camara 1 primera persona, 0 vista aerea.
+cameraMode=0
+
+# nombre del personaje que se quiere controlar con el teclado
+#keyboardControlled=Paula
+
+#Integracion con Prodia
+prodia=off
