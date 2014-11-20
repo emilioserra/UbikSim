@@ -45,6 +45,10 @@ import ubik3d.model.HomePieceOfFurniture;
  * adjust speed and algorithm efficiency (bigger cells make the algorithm faster
  * since nodes are reduced)
  *
+ * Consider parameters of AStarPathFinder when navigation faults are found. The diagonal movements
+ * can make agents go through  walls corners (using the diagonal movement); and the max number of steps
+ * can be not large enough if cell size is small.
+ * 
  * @author Emilio Serrano, Ph.d.; eserrano [at] gsi.dit.upm.es
  */
 public class Pathfinder implements Steppable {

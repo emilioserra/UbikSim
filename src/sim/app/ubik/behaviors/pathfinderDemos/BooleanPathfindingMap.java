@@ -46,7 +46,7 @@ public class BooleanPathfindingMap implements TileBasedMap {
      */
     @Override
     public boolean blocked(PathFindingContext ctx, int x, int y) {
-       if(x>=WIDTH || y>= HEIGHT) return true;
+         if(x>=WIDTH ||x<0 ||y<0 || y>= HEIGHT) return true;
        if(bmap[x][y]) return true;
        if(PositionTools.getDistance(p.getPosition().x, p.getPosition().y, x, y)<percetionRange){
            if(PositionTools.getPerson(p, x, y)!=null) return true;
